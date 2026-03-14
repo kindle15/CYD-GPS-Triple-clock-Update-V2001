@@ -1,0 +1,71 @@
+/*
+  All GPS related methods are here
+*/
+
+//TZ Code, Degrees of Longitude, Daylight Standard, Daylight Savings, Timezone Area, E(ast) or W(est) L(ongitude)
+
+// GMT = 0   (0,0) //Greenwich Mean
+// UTC = 0   (0,0) //Universal Time Coordinated
+// CAT = 15  (-2,-1) //Central African //WL
+// GRL = 30  (-3,-2) //Greenland  //WL
+// AGT = 45  (-4,-3) //Argentina  //WL
+// PRT = 60  (-4,-3) //Puerto Rico //WL
+EST = 75  (-5,-4) //Eastern //WL
+CST = 90  (-6,-5) //Central //WL
+MST = 105 (-7,-6) //Mountain
+PST = 120 (-8,-7) //Pacific
+// AST = 135 (-9,-8) //Alaska
+// HST = 150 (-10,-9) //Hawaii
+// MIT = 165 (-11,-10) //Midway
+// NST = 180 (+12,+11) //New Zeland
+// SST = 165 (+11,+10) //Soloman Islands
+// AET = 150 (+10,+9) //Australia Eastern
+// JST = 135 (+9,+8) //Japan
+// CTT = 120 (+8,+7) //China, Tiwan
+// VST = 105 (+7,+6) //Viet Nam
+// BST = 90  (+6,+5) //Bangladesh //EL
+// PLT = 75  (+5,+4) //Pakastan Lahore //EL
+// NET = 60  (+4,+3) //Near East //EL
+// EAT = 45  (+3,+2) //Eastern African //EL
+// EET = 30  (+2,+1) //East European //EL
+// ECT = 15  (+1,+0) //European Central //EL
+
+dol = degree_of_latitude
+tzc = timezone_code
+el = east_longitude
+wl = west_longitude
+
+if dol+15 => gps_coord_long then tzc
+and if gps = "+" then el else wl
+
+**********************************************************************************
+
+github: jChristensen/Timezone
+
+// myTZ.toLocal(utc)
+Timezone myTZ(utc - myTZ)
+myTZ.toLocal(utc, &tcr); 
+
+
+**********************************************************************************
+github: JChristensen/Timezone
+
+time_t eastern, utc;
+TimeChangeRule *tcr;
+TimeChangeRule usEDT = {"EDT", Second, Sun, Mar, 2, -240}; /,
+TimeChangeRule usEST = {"EST", First, Sun, Nov, 2, -300}; /,
+Timezone USEastern(usEDT, usEST);
+utc = now(); //current time from the Time Library
+eastern = usEastern.toLocal(utc, &tcr);
+Serial.print("The timezone is: ");
+Serial.println(tcr -> abbrev);
+
+**********************************************************************************
+
+/*	
+	Based on this: [utc(now) - myTZ.toLocal(utc);] will issue a numerical 
+	difference, use a timezone table based on localtime from utc 
+	(ie: MST = -6) to determine the TZ.
+*/
+
+

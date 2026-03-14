@@ -1,0 +1,12 @@
+*** Begin Patch
+*** Update File: GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737/GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino
+@@
+ #include <XPT2046_Touchscreen.h>  
+ #include <Wire.h>                 
+ #include <SPI.h>                  
+ 
++// forward-declare screen region struct so Arduino's prototype generator
++// can reference `region` in prototypes inserted earlier.
++struct region;
++
+*** End Patch

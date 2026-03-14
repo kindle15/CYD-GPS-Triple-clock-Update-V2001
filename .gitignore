@@ -1,0 +1,52 @@
+# === GithubTool Default .gitignore ===
+
+# Python virtual environments (catches all naming patterns)
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+.eggs/
+venv/
+.venv/
+env/
+.env/
+*_env/
+env_*/
+.python-version
+
+# PyInstaller
+build/
+*.spec.bak
+
+# NOTE: dist/ is NOT excluded — we want built executables uploaded!
+# NOTE: *.exe in dist/ will be pushed. Standalone *.exe in root is excluded.
+
+# Node
+node_modules/
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Logs
+*.log
+
+# Large archives (unlikely to be source code)
+# Uncomment if needed:
+# *.zip
+# *.tar.gz
+# *.rar
+# *.7z

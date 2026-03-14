@@ -1,0 +1,119 @@
+*** Unified Diff Patch - timezone-surgical-unified.patch
+*** Apply with: git apply timezone-surgical-unified.patch (from repo root)
+***
+*** Update File: GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737/GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino
+@@
+-#include <XPT2046_Touchscreen.h>  
+-#include <Wire.h>                 
+-#include <SPI.h>                  
+-
++#include <XPT2046_Touchscreen.h>  
++#include <Wire.h>                 
++#include <SPI.h>                  
++
++// forward-declare screen region struct so Arduino's prototype generator
++// can reference `region` in prototypes inserted earlier.
++struct region;
++
+@@
+-TimeChangeRule PST = {"PST", Second, Sun, Mar, 2, -480};
+-TimeChangeRule PDT = {"PDT", First , Sun, Nov, 2, -420};
+-TimeChangeRule MST = {"MST", Second, Sun, Mar, 2, -360};
+-TimeChangeRule MDT = {"MDT", First , Sun, Nov, 2, -420};
+-TimeChangeRule CST = {"CST", Second, Sun, Mar, 2, -300};
+-TimeChangeRule CDT = {"CDT", First , Sun, Nov, 2, -360};
+-TimeChangeRule EST = {"EST", Second, Sun, Mar, 2, -240};
+-TimeChangeRule EDT = {"EDT", First , Sun, Nov, 2, -300};
++TimeChangeRule PST = {"PST", Second, Sun, Mar, 2, -480};
++TimeChangeRule PDT = {"PDT", First , Sun, Nov, 2, -420};
++TimeChangeRule MST = {"MST", Second, Sun, Mar, 2, -420};
++TimeChangeRule MDT = {"MDT", First , Sun, Nov, 2, -360};
++TimeChangeRule CST = {"CST", Second, Sun, Mar, 2, -360};
++TimeChangeRule CDT = {"CDT", First , Sun, Nov, 2, -300};
++TimeChangeRule EST = {"EST", Second, Sun, Mar, 2, -300};
++TimeChangeRule EDT = {"EDT", First , Sun, Nov, 2, -240};
+@@
+-/*--------------------------------------------------------------------
+-   *****  AUTOMATIC TIMEZONE HANDLING  ****
+-   --------------------------------------------------------------------*/
+-
+-
+-TimeChangeRule* lookupTimezoneByLocation(const TinyGPSLocation &location)
+-
+-  if (location.lat() >= 32.0 && location.lat() <= 42.0 &&
+-      location.lng() <= -125.0 && location.lng() >= -114.0)   // PST region
+-        return myTZ = (PST, PDT);
+-
+-  if (location.lat() >= 45.0 && location.lat() <= 49.5 &&
+-      location.lng() <= -110.0 && location.lng() >= -120.0)   // MST region
+-        return myTZ = (MST, MDT);
+-
+-  if (location.lat() >= 35.0 && location.lat() <= 42.0 &&
+-      location.lng() <= -90.0  && location.lng() >= -100.0)   // CST region
+-        return myTZ = (CST, CDT);
+-
+-  if (location.lat() >= 25.0 && location.lat() <= 38.0 &&
+-      location.lng() <= -70.0  && location.lng() >= -87.0)   // EST region
+-        return myTZ = (EST, EDT);
+-
+-  // Default to MST if we cannot guess
+-  return myTZ=(MST, MDT);
+-
+-TimeChangeRule *tz;     // pointer to currently selected rules
+-Timezone myTZ;          // will be set dynamically
++/*--------------------------------------------------------------------
++   *****  AUTOMATIC TIMEZONE HANDLING  ****
++   --------------------------------------------------------------------*/
++
++// Create static Timezone instances for each US zone (DST rule first)
++Timezone tzPacific(PDT, PST);
++Timezone tzMountain(MDT, MST);
++Timezone tzCentral(CDT, CST);
++Timezone tzEastern(EDT, EST);
++
++// Pointer to the currently selected Timezone (default to Mountain)
++Timezone *myTZ = &tzMountain;
++TimeChangeRule *tz = NULL;
++
++// Crude geographic lookup: set `myTZ` to the matching DST/std pair and
++// return the active rule pointer (as used elsewhere in the sketch).
++TimeChangeRule* lookupTimezoneByLocation(TinyGPSLocation &location)
++{
++  // Pacific
++  if (location.lat() >= 32.0 && location.lat() <= 42.0 &&
++      location.lng() >= -125.0 && location.lng() <= -114.0) {
++    myTZ = &tzPacific;
++    myTZ->toLocal(now(), &tz); // fills tz
++    return tz;
++  }
++
++  // Mountain
++  if (location.lat() >= 45.0 && location.lat() <= 49.5 &&
++      location.lng() >= -120.0 && location.lng() <= -110.0) {
++    myTZ = &tzMountain;
++    myTZ->toLocal(now(), &tz);
++    return tz;
++  }
++
++  // Central
++  if (location.lat() >= 35.0 && location.lat() <= 42.0 &&
++      location.lng() >= -100.0 && location.lng() <= -90.0) {
++    myTZ = &tzCentral;
++    myTZ->toLocal(now(), &tz);
++    return tz;
++  }
++
++  // Eastern
++  if (location.lat() >= 25.0 && location.lat() <= 38.0 &&
++      location.lng() >= -87.0 && location.lng() <= -70.0) {
++    myTZ = &tzEastern;
++    myTZ->toLocal(now(), &tz);
++    return tz;
++  }
++
++  // Default to Mountain
++  myTZ = &tzMountain;
++  myTZ->toLocal(now(), &tz);
++  return tz;
++}
+*** End Patch

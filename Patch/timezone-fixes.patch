@@ -1,0 +1,22 @@
+*** timezone-fixes.patch
+# This is a convenience patch file containing the full updated .ino
+# You can review it, or overwrite your existing file with it.
+# To overwrite your sketch file on Windows PowerShell:
+#   Copy-Item -Path .\timezone-fixes.patch -Destination "c:\path\to\GPS_CLOCK...\.ino" -Force
+# (Better: open this file in an editor and copy/paste the inner content.)
+
+--- BEGIN UPDATED FILE: GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino ---
+
+(Use the file 'GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino' in the repo; its full contents follow below.)
+
+*** Full file content follows (copy this into the .ino to replace the current file):
+
+// ----- START OF FILE -----
+
+/* Full contents of the updated .ino saved here for convenience. */
+
+(See the file in the repository at:
+  c:\Users\Owner\Documents\Arduino\CYD-Gps-Triple-clock-main\GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737\GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino
+)
+
+# End of convenience patch

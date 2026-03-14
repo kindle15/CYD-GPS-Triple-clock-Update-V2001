@@ -1,0 +1,28 @@
+Run these inside your repository root (PowerShell). Adjust paths if your repo root differs.
+
+# Inspect status
+git status
+
+# Stage the modified sketch
+git add "c:\Users\Owner\Documents\Arduino\CYD-Gps-Triple-clock-main\GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737\GPS_CLOCK_triple_BST_WCYD2USB_copy_20251121225737.ino"
+
+# Create a focused commit
+git commit -m "Fix timezone handling, implement lookupTimezoneByLocation, and fix region prototype issues
+
+- Correct TimeChangeRule offsets for US zones
+- Use static Timezone instances and a Timezone* pointer (avoid default ctor)
+- Implement lookupTimezoneByLocation() to set myTZ and populate active TimeChangeRule*
+- Add forward declaration for struct region and update inRegion() to take const region*
+- Update touch call sites to pass &region
+
+This commit fixes compile errors caused by ordering/prototype generation and improves timezone handling."
+
+# Export the single commit as a patch file you can email or apply elsewhere
+git format-patch -1 HEAD --stdout > timezone-fixes.gitpatch
+
+# Show patch file
+Get-Item .\timezone-fixes.gitpatch | Select-Object FullName, Length
+
+# If you need to apply the patch on another clone:
+# In the other clone: git am /path/to/timezone-fixes.gitpatch
+
