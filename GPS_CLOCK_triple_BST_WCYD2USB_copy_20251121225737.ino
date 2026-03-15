@@ -198,6 +198,16 @@ XPT2046_Touchscreen touchscreen(XPT2046_CS, XPT2046_IRQ);
 #define BACKLIGHT 21 // TFT_BACKLIGHT
 #define RXD2 22 //RX (UART2) on CYD TX on gps Module
 #define GPS_PPS 27 // On CN1 connector CYD_2USB
+/*
+ESP32 CYD GPS WIRING DIAGRAM:
+Connections from the CN1 connector to the GPS module
+
+CN1 Wire Color Pin location-CN1  GPS Module      Pin location-GPS Mod
+Red            1   				 VCC(3.3v)       1
+Yellow(p27)    2   				 RX(PPS or Rx)   5/4
+Blue(p22)      3    			 TX              3
+Black          4    			 GND             2
+*/
 
 
 #define USING_PPS true           // true if GPS_PPS line connected; false otherwise.
