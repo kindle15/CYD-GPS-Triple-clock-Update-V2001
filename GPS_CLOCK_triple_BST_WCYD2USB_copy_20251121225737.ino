@@ -2,8 +2,10 @@
        Title:   GPS Clock with TFT display
       Author:   Bruce E. Hall, w8bh.net
         Date:   12 May 2022
-    Hardware:   Blue Pill Microcontroller, 2.8" ILI9341 TFT display,
+    Hardware:   CYD2USB2.8", ILI9341 TFT display,
                 Adafruit "Ultimate GPS" module v3
+				(or smallest GPS module from 
+				Amazon (5 pin) generic module --kindle15)
     Software:   Arduino IDE version  2.3.2
                 ESP32 Board          3.0.4   This is the board the board
 						manager. update to latest
